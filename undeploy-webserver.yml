@@ -1,0 +1,20 @@
+---
+- name: Remove Apache Web Servers from VM1 and VM2
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Stop and disable Apache service
+      service:
+        name: apache2
+        state: stopped
+        enabled: no
+
+    - name: Remove Apache package and dependencies
+      apt:
+        name: apache2
+        state: absent
+
+    - name: Remove web content directory
+      file:
+        path: /var/www/html/
+        state: absent
